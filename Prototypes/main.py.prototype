@@ -1,0 +1,5 @@
+#value : k = int(input())
+#mult values : n, p = map(int, input().split())
+#list : a = list(map(int, input().split()))
+
+for _ in range(int(input())):	#while(t--)
