@@ -48,32 +48,18 @@ void Solve(){
     ll i = l;
     while (i <= r)
     {
-        //cout << "v[ind] " << v[ind] << endl;
         if (v[ind] <= r)
         {
             res += v[ind] * (v[ind] - i + 1);
-            //cout << (v[ind] - i + 1) << endl;
         }
 
         else
         {
             res += v[ind] * (r - i + 1);
-            //cout << (r - i + 1) << endl;
         }
         i = v[ind] + 1;
         ind++;
     }
-
-    /*
-    for (int i = l; i <= r; i++)
-    {
-        if (v[ind] < i)
-            ind++;
-        
-        res += v[ind];
-        //cout << v[ind] << endl;
-    }
-    */
 
     cout << res << endl;
 }
