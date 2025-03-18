@@ -9,25 +9,18 @@ using namespace std;
 #define FORk(a) for (int k = 0; k < a; k++)
 #define ull unsigned long long
 #define ll long long
-
+ 
 void Solve(){
     ll n; cin >> n;
-    
-    vector<int> v(n);
-    FORi(n)
+    ll res = n;
+
+    for (int i = 1; i < n; i++)
     {
         ll a; cin >> a;
-        v[a - 1] = 1;  
+        res ^= i ^ a;
     }
 
-    FORi(n)
-    {
-        if (v[i] == 0)
-        {
-            cout << i + 1 << endl;
-            return;
-        }
-    }
+    cout << res << endl;
 }
 	
 int main(){ 
