@@ -1,0 +1,40 @@
+1 picture into 1s video:
+
+ffmpeg -loop 1 -t 1 -i image1.jpg -vf "scale=304:304" -c:v libx264 -pix_fmt yuv420p -an output.mp4
+
+
+two video with audio:
+
+ffmpeg -i video1.mp4 -i video2.mp4 -filter_complex "[0:v]scale=360:360,fps=30[v0];[v0][1:v]concat=n=2:v=1:a=0[outv];[0:a][1:a]concat=n=2:v=0:a=1[outa]" -map "[outv]" -map "[outa]" -c:v libx264 -c:a aac -pix_fmt yuv420p output.mp4
+
+
+two pictures 1s each:
+
+ffmpeg -loop 1 -t 1 -i image1.jpg -loop 1 -t 1 -i image2.jpg -filter_complex "[0:v]scale=304:304[v0];[1:v]scale=304:304[v1];[v0][v1]concat=n=2:v=1:a=0[outv]" -map "[outv]" -c:v libx264 -pix_fmt yuv420p -an output.mp4
+
+
+makes an image even:
+
+ffmpeg -i image.jpg -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" image_even.jpg
+
+
+makes an image 30% of original size:
+
+ffmpeg -i image.jpg -vf "scale=iw*0.3:ih*0.3" image_small.jpg
+
+
+makes double picture into 1s video:
+
+ffmpeg -loop 1 -t 1 -i image1.jpg -i image2_small.jpg -filter_complex "[0:v][1:v]overlay=10:10" -c:v libx264 -pix_fmt yuv420p -t 1 -an output_overlaid.mp4
+
+
+makes double picture into one image:
+
+ffmpeg -i image1.jpg -i image2_small.jpg -filter_complex "[0:v][1:v]overlay=10:10" -frames:v 1 output.jpg
+
+
+rounds borders of an image:
+
+ffmpeg -i image2.jpg -vf "format=rgba,geq=r='p(X,Y)':g='p(X,Y)':b='p(X,Y)':a='if(gte(hypot(X-100,Y-100),100)*lt(X,100)*lt(Y,100)+gte(hypot(X-(W-100),Y-100),100)*gt(X,W-100)*lt(Y,100)+gte(hypot(X-100,Y-(H-100)),100)*lt(X,100)*gt(Y,H-100)+gte(hypot(X-(W-100),Y-(H-100)),100)*gt(X,W-100)*gt(Y,H-100),0,255)'" output_rounded.png
+
+ffmpeg -i image2.jpg -vf "format=rgba,geq=r='p(X,Y)':g='p(X,Y)':b='p(X,Y)':a='if(gte(hypot(X-MODIFY,Y-MODIFY),MODIFY)*lt(X,MODIFY)*lt(Y,MODIFY)+gte(hypot(X-(W-MODIFY),Y-MODIFY),MODIFY)*gt(X,W-MODIFY)*lt(Y,MODIFY)+gte(hypot(X-MODIFY,Y-(H-MODIFY)),MODIFY)*lt(X,MODIFY)*gt(Y,H-MODIFY)+gte(hypot(X-(W-MODIFY),Y-(H-MODIFY)),MODIFY)*gt(X,W-MODIFY)*gt(Y,H-MODIFY),0,255)'" output_rounded.png
