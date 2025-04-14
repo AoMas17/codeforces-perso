@@ -21,6 +21,14 @@ ffmpeg -i image.jpg -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" image_even.jpg
 makes an image 30% of original size:
 
 ffmpeg -i image.jpg -vf "scale=iw*0.3:ih*0.3" image_small.jpg
+for fixed ratio
+ffmpeg -i image2.jpg -vf "scale=1920:1080" output_1920x1080.png
+
+make a video 30% of original size:
+
+ffmpeg -i input.mp4 -vf "scale=iw*0.3:ih*0.3" output.mp4
+for fixed ratio
+ffmpeg -i input.mp4 -vf "scale=1920:1080,setsar=1:1" output.mp4
 
 
 makes double picture into 1s video:
@@ -38,3 +46,4 @@ rounds borders of an image:
 ffmpeg -i image2.jpg -vf "format=rgba,geq=r='p(X,Y)':g='p(X,Y)':b='p(X,Y)':a='if(gte(hypot(X-100,Y-100),100)*lt(X,100)*lt(Y,100)+gte(hypot(X-(W-100),Y-100),100)*gt(X,W-100)*lt(Y,100)+gte(hypot(X-100,Y-(H-100)),100)*lt(X,100)*gt(Y,H-100)+gte(hypot(X-(W-100),Y-(H-100)),100)*gt(X,W-100)*gt(Y,H-100),0,255)'" output_rounded.png
 
 ffmpeg -i image2.jpg -vf "format=rgba,geq=r='p(X,Y)':g='p(X,Y)':b='p(X,Y)':a='if(gte(hypot(X-MODIFY,Y-MODIFY),MODIFY)*lt(X,MODIFY)*lt(Y,MODIFY)+gte(hypot(X-(W-MODIFY),Y-MODIFY),MODIFY)*gt(X,W-MODIFY)*lt(Y,MODIFY)+gte(hypot(X-MODIFY,Y-(H-MODIFY)),MODIFY)*lt(X,MODIFY)*gt(Y,H-MODIFY)+gte(hypot(X-(W-MODIFY),Y-(H-MODIFY)),MODIFY)*gt(X,W-MODIFY)*gt(Y,H-MODIFY),0,255)'" output_rounded.png
+
